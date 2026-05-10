@@ -1,0 +1,25 @@
+{
+  "name": "@cenaei/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "node -e \"process.exit(0)\"",
+    "build": "node -e \"process.exit(0)\""
+  },
+  "dependencies": {
+    "@cenaei/db": "workspace:*",
+    "better-auth": "^1.6.9"
+  },
+  "peerDependencies": {
+    "next": "^16.0.0"
+  },
+  "devDependencies": {
+    "next": "16.2.4",
+    "@cenaei/tsconfig": "workspace:*",
+    "typescript": "^6.0.3"
+  }
+}

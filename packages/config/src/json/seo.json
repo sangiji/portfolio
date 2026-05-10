@@ -1,0 +1,9 @@
+{
+  "defaultTitle": "Cenaei — Portfolio",
+  "defaultDescription": "Engineer. Builder. Closer.",
+  "ogImagePath": "/og-default.png",
+  "robots": {
+    "/": "index,follow",
+    "/admin": "noindex,nofollow"
+  }
+}

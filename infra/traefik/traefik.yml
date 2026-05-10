@@ -1,0 +1,16 @@
+# Static Traefik file provider example — primary routing uses Docker labels in compose.
+api:
+  dashboard: false
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    directory: /dynamic
+    watch: true

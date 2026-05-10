@@ -1,0 +1,31 @@
+# Multi-stage image for any Next app in this monorepo (see ARCHITECTURE §11.3)
+ARG APP=web
+ARG NODE_VERSION=22
+
+FROM node:${NODE_VERSION}-alpine AS deps
+RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
+WORKDIR /repo
+COPY pnpm-workspace.yaml turbo.json package.json pnpm-lock.yaml ./
+COPY packages/ packages/
+COPY apps/web/package.json apps/web/
+COPY apps/games/package.json apps/games/
+COPY apps/demos/package.json apps/demos/
+COPY apps/tools/package.json apps/tools/
+RUN pnpm install --frozen-lockfile --prefer-offline
+
+FROM deps AS builder
+ARG APP
+COPY apps/${APP} apps/${APP}/
+RUN pnpm turbo build --filter=@cenaei/${APP}
+
+FROM node:${NODE_VERSION}-alpine AS runner
+ARG APP
+ENV NODE_ENV=production
+WORKDIR /app
+RUN addgroup -g 1001 nodejs && adduser -S nextjs -u 1001
+COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP}/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP}/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP}/public ./public
+USER nextjs
+EXPOSE 3000
+CMD ["node", "server.js"]

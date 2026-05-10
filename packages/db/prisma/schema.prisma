@@ -1,0 +1,267 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL")
+}
+
+// ─── Better Auth (tables mapped to lowercase) + app role ─────────────────
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  role          Role      @default(ADMIN)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("verification")
+}
+
+enum Role {
+  ADMIN
+  VIEWER
+}
+
+model DemoToken {
+  id        String    @id @default(cuid())
+  token     String    @unique @default(cuid())
+  label     String
+  scopes    String[]
+  maxUses   Int?
+  usedCount Int       @default(0)
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  usedAt    DateTime?
+}
+
+// ─── Portfolio Content ───────────────────────────────────────────────────
+model Project {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  title        String
+  summary      String
+  content      Json
+  problem      String?
+  solution     String?
+  status       ProjectStatus @default(DRAFT)
+  featured     Boolean       @default(false)
+  order        Int           @default(0)
+  coverImage   String?
+  media        Media[]
+  techStack    Tag[]         @relation("ProjectTags")
+  liveUrl      String?
+  repoUrl      String?
+  caseStudyUrl String?
+  publishedAt  DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Skill {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  category       String
+  icon           String?
+  pitch          String
+  businessValue  String
+  technicalDepth Json
+  usedIn         Tag[]    @relation("SkillTags")
+  yearsExp       Int?
+  order          Int      @default(0)
+  published      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model PricingTier {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  badge       String?
+  price       Decimal  @db.Decimal(12, 2)
+  currency    String   @default("USD")
+  period      String   @default("project")
+  tagline     String
+  features    Json
+  cta         String
+  ctaUrl      String?
+  highlighted Boolean  @default(false)
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  title       String
+  excerpt     String
+  content     Json
+  coverImage  String?
+  status      PostStatus @default(DRAFT)
+  tags        Tag[]      @relation("PostTags")
+  readingTime Int?
+  views       Int        @default(0)
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Tag {
+  id       String     @id @default(cuid())
+  name     String     @unique
+  slug     String     @unique
+  color    String?
+  projects Project[]  @relation("ProjectTags")
+  skills   Skill[]    @relation("SkillTags")
+  posts    BlogPost[] @relation("PostTags")
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  type      String
+  alt       String?
+  width     Int?
+  height    Int?
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  company   String?
+  message   String
+  budget    String?
+  source    String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  referrer  String?
+  ua        String?
+  country   String?
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
+}
+
+// ─── Games ───────────────────────────────────────────────────────────────
+model Game {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  description String?
+  type        GameType
+  coverImage  String?
+  active      Boolean     @default(true)
+  scores      GameScore[]
+  createdAt   DateTime    @default(now())
+}
+
+enum GameType {
+  TRACKER
+  ONLINE
+  LEADERBOARD
+}
+
+model GameScore {
+  id        String   @id @default(cuid())
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  player    String
+  score     Int
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  @@index([gameId, score(sort: Desc)])
+}
+
+// ─── Demos ───────────────────────────────────────────────────────────────
+model Demo {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String?
+  stack       String[]
+  embedUrl    String?
+  proxyPath   String?
+  coverImage  String?
+  requireAuth Boolean  @default(false)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

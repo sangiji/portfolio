@@ -1,0 +1,26 @@
+# Local dev: Postgres + Redis (+ optional Traefik). Run Next apps via `pnpm dev` on host.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: cenaei
+      POSTGRES_USER: cenaei
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cenaei}
+    ports:
+      - "5440:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    command: >
+      postgres
+        -c shared_buffers=32MB
+        -c effective_cache_size=64MB
+        -c max_connections=50
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 28mb --maxmemory-policy allkeys-lru
+
+volumes:
+  postgres_dev_data:

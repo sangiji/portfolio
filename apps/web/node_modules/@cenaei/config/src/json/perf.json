@@ -1,0 +1,16 @@
+{
+  "webgl": {
+    "antialias": false,
+    "pixelRatioMax": 1.5,
+    "maxParticles": 6000,
+    "shadowMapEnabled": false,
+    "targetFPS": 60,
+    "degradeToCSS": true
+  },
+  "images": {
+    "formats": ["avif", "webp"],
+    "quality": 80,
+    "placeholderBlur": true
+  },
+  "prefetch": "viewport"
+}

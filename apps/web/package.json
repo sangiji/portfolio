@@ -1,0 +1,38 @@
+{
+  "name": "@cenaei/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@cenaei/3d": "workspace:*",
+    "@cenaei/auth": "workspace:*",
+    "@cenaei/config": "workspace:*",
+    "@cenaei/db": "workspace:*",
+    "@cenaei/ui": "workspace:*",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@prisma/client": "^7.8.0",
+    "three": "^0.184.0",
+    "better-auth": "^1.6.9",
+    "next": "16.2.4",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "zod": "^4.4.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^25",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.184.0",
+    "eslint": "^10",
+    "eslint-config-next": "16.2.4",
+    "tailwindcss": "^4",
+    "typescript": "^6.0.3"
+  }
+}

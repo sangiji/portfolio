@@ -1,0 +1,103 @@
+{
+  "name": "Cenaei",
+  "domain": "cenaei.dev",
+  "tagline": "Engineer. Builder. Closer.",
+  "nav": [
+    { "label": "Work", "href": "/projects" },
+    { "label": "Skills", "href": "/skills" },
+    { "label": "Writing", "href": "/blog" },
+    { "label": "Pricing", "href": "/pricing" }
+  ],
+  "social": {
+    "github": "https://github.com/cenaei",
+    "linkedin": "https://linkedin.com/in/cenaei",
+    "twitter": "https://twitter.com/cenaei"
+  },
+  "contact": {
+    "email": "hey@cenaei.dev",
+    "calendly": "https://calendly.com/cenaei/30min"
+  },
+  "landing": {
+    "sketchfabModelId": "e9e66978d4a248e2b0c4fdbb9912a573",
+    "sketchfabTitle": "Interactive 3D on the landing page",
+    "valuePropsHeading": "How I work",
+    "valueProps": [
+      {
+        "title": "Shape the problem",
+        "description": "Clarify outcomes, constraints, and risks before touching code."
+      },
+      {
+        "title": "Build in small slices",
+        "description": "Ship vertical increments with observability and rollback paths."
+      },
+      {
+        "title": "Own the finish",
+        "description": "Docs, handoff, and follow-through until it is boring in production."
+      }
+    ],
+    "featuredHeading": "Featured work",
+    "ctaHeading": "Have something in mind?",
+    "ctaSubtext": "Tell me what you are building — or grab time on the calendar."
+  },
+  "skillsPage": {
+    "eyebrow": "Capability Stack",
+    "title": "Skills",
+    "intro": "Core strengths I use to turn fuzzy requirements into stable, high-leverage systems.",
+    "contextHeading": "What this represents",
+    "contextItems": [
+      "Production delivery under real deadlines",
+      "Architecture that balances speed and maintainability",
+      "Execution from discovery to operations"
+    ],
+    "sectionHeading": "Core capabilities",
+    "cta": {
+      "heading": "Need a specific capability in your team?",
+      "subtext": "I can drop in and accelerate architecture, implementation, and delivery.",
+      "primaryLabel": "Contact",
+      "secondaryLabel": "Schedule"
+    }
+  },
+  "projectsPage": {
+    "eyebrow": "Proof of Execution",
+    "title": "Projects",
+    "intro": "Selected builds that show product thinking, technical depth, and reliable delivery.",
+    "contextHeading": "Delivery signals",
+    "contextItems": [
+      "Complex integrations with clean developer experience",
+      "Performance-minded frontend and resilient backend design",
+      "End-to-end ownership from idea to production"
+    ],
+    "sectionHeading": "Featured projects",
+    "cta": {
+      "heading": "Want this level of build quality?",
+      "subtext": "Share your scope and I will help shape and ship it.",
+      "primaryLabel": "Start a conversation",
+      "secondaryLabel": "Book a call"
+    }
+  },
+  "skillDetailPage": {
+    "eyebrow": "Deep Dive",
+    "valueHeading": "Business value",
+    "relatedHeading": "Used in projects",
+    "emptyRelatedText": "Related projects will be linked here.",
+    "contextLine": "Applied with product context, measurable outcomes, and production responsibility.",
+    "cta": {
+      "heading": "Need this expertise on your roadmap?",
+      "subtext": "I can apply it directly to your stack and delivery goals.",
+      "primaryLabel": "Contact",
+      "secondaryLabel": "Schedule"
+    }
+  },
+  "projectDetailPage": {
+    "eyebrow": "Case Study",
+    "stackHeading": "Tech stack",
+    "contextHeading": "Delivery context",
+    "contextLine": "Built for reliability, maintainability, and business impact.",
+    "cta": {
+      "heading": "Planning something similar?",
+      "subtext": "I can help design the right architecture and execute it end to end.",
+      "primaryLabel": "Contact",
+      "secondaryLabel": "Schedule"
+    }
+  }
+}

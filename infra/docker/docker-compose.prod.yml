@@ -1,0 +1,123 @@
+# Abridged production stack (ARCHITECTURE §11.2). Set env vars and TLS before deploy.
+x-healthcheck: &healthcheck
+  interval: 30s
+  timeout: 10s
+  retries: 3
+
+services:
+  traefik:
+    image: traefik:v3.0
+    command:
+      - --api.dashboard=false
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/certs/acme.json
+      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_certs:/certs
+    mem_limit: 32m
+
+  web:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.base
+      args: { APP: web }
+    environment:
+      DATABASE_URL: postgresql://cenaei:${POSTGRES_PASSWORD}@postgres:5432/cenaei
+      REDIS_URL: redis://redis:6379
+      GAMES_APP_URL: http://games:3000
+      DEMOS_APP_URL: http://demos:3000
+      TOOLS_APP_URL: http://tools:3000
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: https://cenaei.dev
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.web.rule=Host(`cenaei.dev`)
+      - traefik.http.routers.web.entrypoints=websecure
+      - traefik.http.routers.web.tls.certresolver=letsencrypt
+    mem_limit: 256m
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+
+  games:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.base
+      args: { APP: games }
+    environment:
+      DATABASE_URL: postgresql://cenaei:${POSTGRES_PASSWORD}@postgres:5432/cenaei
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.games.rule=Host(`games.cenaei.dev`)
+      - traefik.http.routers.games.entrypoints=websecure
+      - traefik.http.routers.games.tls.certresolver=letsencrypt
+    mem_limit: 128m
+    depends_on:
+      - postgres
+
+  demos:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.base
+      args: { APP: demos }
+    environment:
+      DATABASE_URL: postgresql://cenaei:${POSTGRES_PASSWORD}@postgres:5432/cenaei
+      DEMO_PROXY_BASE: ${DEMO_PROXY_BASE:-http://localhost:8080}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.demos.rule=Host(`demo.cenaei.dev`)
+      - traefik.http.routers.demos.entrypoints=websecure
+      - traefik.http.routers.demos.tls.certresolver=letsencrypt
+    mem_limit: 128m
+    depends_on:
+      - postgres
+
+  tools:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.base
+      args: { APP: tools }
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tools.rule=Host(`tools.cenaei.dev`)
+      - traefik.http.routers.tools.entrypoints=websecure
+      - traefik.http.routers.tools.tls.certresolver=letsencrypt
+    mem_limit: 64m
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: cenaei
+      POSTGRES_USER: cenaei
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command: >
+      postgres
+        -c shared_buffers=32MB
+        -c effective_cache_size=64MB
+        -c max_connections=50
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    mem_limit: 128m
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --maxmemory 28mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    mem_limit: 32m
+
+volumes:
+  traefik_certs:
+  postgres_data:
+  redis_data:

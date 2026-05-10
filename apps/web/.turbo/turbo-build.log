@@ -1,0 +1,85 @@
+
+> @cenaei/web@0.1.0 build D:\ssh\portfolio\portfolio\apps\web
+> next build
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of D:\ssh\pnpm-lock.yaml as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * D:\ssh\portfolio\portfolio\pnpm-workspace.yaml
+
+▲ Next.js 16.2.4 (Turbopack)
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./portfolio/portfolio/apps/web/next.config.ts
+Encountered unexpected file in NFT list
+A file was traced that indicates that the whole project was traced unintentionally. Somewhere in the import trace below, there are:
+- filesystem operations (like path.join, path.resolve or fs.readFile), or
+- very dynamic requires (like require('./' + foo)).
+To resolve this, you can
+- remove them if possible, or
+- only use them in development, or
+- make sure they are statically scoped to some subfolder: path.join(process.cwd(), 'data', bar), or
+- add ignore comments: path.join(/*turbopackIgnore: true*/ process.cwd(), bar)
+
+Import trace:
+  App Route:
+    ./portfolio/portfolio/apps/web/next.config.ts
+    ./portfolio/portfolio/packages/db/src/generated/index.js
+    ./portfolio/portfolio/packages/db/src/index.ts
+    ./portfolio/portfolio/apps/web/app/api/admin/pricing/route.ts
+
+
+✓ Compiled successfully in 16.7s
+  Running TypeScript ...
+  Finished TypeScript in 12.2s ...
+  Collecting page data using 19 workers ...
+⚠ Using edge runtime on a page currently disables static generation for that page
+  Generating static pages using 19 workers (0/11) ...
+  Generating static pages using 19 workers (2/11) 
+  Generating static pages using 19 workers (5/11) 
+  Generating static pages using 19 workers (8/11) 
+✓ Generating static pages using 19 workers (11/11) in 593ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /admin/blog
+├ ƒ /admin/demos
+├ ƒ /admin/games
+├ ƒ /admin/leads
+├ ƒ /admin/login
+├ ƒ /admin/pricing
+├ ƒ /admin/projects
+├ ƒ /admin/settings
+├ ƒ /admin/skills
+├ ƒ /api/admin/blog
+├ ƒ /api/admin/config
+├ ƒ /api/admin/pricing
+├ ƒ /api/admin/projects
+├ ƒ /api/admin/skills
+├ ƒ /api/analytics
+├ ƒ /api/auth/[...all]
+├ ƒ /api/contact
+├ ƒ /api/health
+├ ƒ /api/og/[...slug]
+├ ƒ /blog
+├ ƒ /blog/[slug]
+├ ƒ /contact
+├ ƒ /pricing
+├ ƒ /projects
+├ ƒ /projects/[slug]
+├ ƒ /skills
+└ ƒ /skills/[slug]
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

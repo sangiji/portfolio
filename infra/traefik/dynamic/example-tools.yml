@@ -1,0 +1,11 @@
+# Example file-provider routes mirroring ARCHITECTURE §10 (usually prefer Docker labels).
+# http:
+#   routers:
+#     uptime:
+#       rule: "Host(`tools.cenaei.dev`) && PathPrefix(`/uptime`)"
+#       service: uptime-kuma
+#   services:
+#     uptime-kuma:
+#       loadBalancer:
+#         servers:
+#           - url: "http://uptime-kuma:3001"

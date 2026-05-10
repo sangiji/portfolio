@@ -1,0 +1,31 @@
+{
+  "name": "@cenaei/3d",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "node -e \"process.exit(0)\"",
+    "build": "node -e \"process.exit(0)\""
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./utils/capability": "./src/utils/capability.ts",
+    "./hooks/useDisposable": "./src/hooks/useDisposable.ts"
+  },
+  "peerDependencies": {
+    "@react-three/drei": "^9.0.0",
+    "@react-three/fiber": "^8.0.0",
+    "react": "^19.0.0",
+    "three": "^0.167.0"
+  },
+  "devDependencies": {
+    "@cenaei/tsconfig": "workspace:*",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@types/react": "^19",
+    "@types/three": "^0.184.0",
+    "react": "19.2.5",
+    "three": "^0.184.0",
+    "typescript": "^6.0.3"
+  }
+}

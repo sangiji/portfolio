@@ -1,0 +1,8 @@
+{
+  "enable3DHero": true,
+  "enableBlog": true,
+  "enableGamesSubdomain": true,
+  "enableDemosSubdomain": true,
+  "enableToolsSubdomain": true,
+  "maintenanceMode": false
+}

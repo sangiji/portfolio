@@ -1,0 +1,11 @@
+{
+  "extends": "@cenaei/tsconfig/base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "paths": {
+      "@cenaei/db": ["./src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "prisma/**/*.prisma"]
+}

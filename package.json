@@ -1,0 +1,19 @@
+{
+  "name": "cenaei",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.33.2",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "db:generate": "pnpm --filter @cenaei/db exec prisma generate",
+    "db:migrate": "pnpm --filter @cenaei/db exec prisma migrate dev",
+    "db:push": "pnpm --filter @cenaei/db exec prisma db push"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "turbo": "^2.9.7",
+    "typescript": "^6.0.3"
+  }
+}
