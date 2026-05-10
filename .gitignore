@@ -45,3 +45,22 @@ next-env.d.ts
 
 # prisma generated client
 packages/db/src/generated/
+
+
+# Turborepo & Next.js
+.turbo
+.next
+node_modules
+dist
+*.tsbuildinfo
+
+# Prisma
+/packages/db/src/generated
+
+# Infrastructure & Logs
+.env*
+!.env.example
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
