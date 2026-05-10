@@ -1,0 +1,2 @@
+# Force everything to LF on check-in, and use the OS default on checkout
+* text=auto eol=lf
